@@ -22,6 +22,9 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     environment: udacity
+    defaults:
+      run:
+        working-directory: starter/frontend
     steps:
       - uses: actions/checkout@v4
       - name: Configure AWS Credentials
