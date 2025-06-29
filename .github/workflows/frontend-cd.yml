@@ -75,7 +75,7 @@ jobs:
         run: npm run test
 
   build:
-    needs: [lint, test] 
+    needs: [lint, test]
     runs-on: ubuntu-latest
     environment: udacity
     defaults:
