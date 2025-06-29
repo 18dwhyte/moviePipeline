@@ -105,7 +105,9 @@ jobs:
 
       - name: Replace image tag in Kubernetes manifests
         run: |
-          sed -i "s|IMAGE_TAG|${{ env.IMAGE_TAG }}|g" k8s/backend-deployment.yaml
+          sed -i "s|IMAGE_TAG|${{ env.IMAGE_TAG }}|g" backend-deployment.yaml
+        working-directory: starter/backend/k8s
 
       - name: Deploy to Kubernetes
-        run: kubectl apply -f k8s/
+        run: kubectl apply -f .
+        working-directory: starter/backend/k8s
