@@ -2,26 +2,31 @@ name: Frontend Continuous Integration
 
 on:
   pull_request:
+  #master is the main branch
     branches: [master]
     paths:
       - 'starter/frontend/**'
   workflow_dispatch:
 
 jobs:
+#LINT JOB: There should be a job in the workflow that runs linting. 
   lint:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: starter/frontend
     steps:
-      - name: Checkout code
+    #Checkout code
+      - name: Checkout 
         uses: actions/checkout@v4 
-      - name: Setup NodeJS
+    #Setup NodeJS
+      - name: Node 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
           cache-dependency-path: ./starter/frontend/package-lock.json
+      #Perform a cache action to restore cache before dependency install
       - name: Perform a cache action to restore cache before dependency install
         uses: actions/cache@v3
         id: npm-cache
@@ -30,25 +35,30 @@ jobs:
             starter/frontend/node_modules
             starter/frontend/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('starter/frontend/package-lock.json') }}
+        #Install dependencies
       - name: Install dependencies
         run: npm install
+        #Run the npm run lint command
       - name: Run ESLint
         run: npm run lint
-
+#TEST JOB: There should be a job in the workflow that runs the tests The job should have these steps:
   test:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: starter/frontend
     steps:
-      - name: Checkout code
+    #Checkout code
+      - name: Checkout
         uses: actions/checkout@v4 
-      - name: Setup NodeJS
+         #Setup NodeJS
+      - name: Node 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
           cache-dependency-path: ./starter/frontend/package-lock.json
+          #Perform a cache action to restore cache before dependency install
       - name: Perform a cache action to restore cache before dependency install
         uses: actions/cache@v3
         id: npm-cache
@@ -57,11 +67,13 @@ jobs:
             starter/frontend/node_modules
             starter/frontend/.npm
           key: ${{ runner.os }}-npm-${{ hashFiles('starter/frontend/package-lock.json') }}
+          #Install dependencies
       - name: Install dependencies
         run: npm install
+        #Run the npm run lint command
       - name: Run Test
         run: npm run test
-
+#BUILD JOB: This job should only run after the first 2 succeed (student has to use the "needs" syntax) 
   build:
     needs: [lint, test]
     runs-on: ubuntu-latest
@@ -69,9 +81,9 @@ jobs:
       run:
         working-directory: starter/frontend
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4 
-      - name: Setup NodeJS
+      - name: Node 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -87,5 +99,5 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('starter/frontend/package-lock.json') }}
       - name: Install dependencies
         run: npm install
-      - name: step that builds the application using docker
+      - name: build
         run: docker build -t frontend-app .
