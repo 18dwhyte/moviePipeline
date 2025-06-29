@@ -129,12 +129,3 @@ jobs:
           kustomize edit set image backend=${{ vars.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/backend:${GITHUB_SHA::7}
           kustomize build | kubectl apply -f -
         working-directory: starter/backend/k8s
-
-     # - name: Replace image tag in Kubernetes manifests
-     #   run: |
-     #     sed -i "s|IMAGE_TAG|${{ env.IMAGE_TAG }}|g" deployment.yaml
-     #   working-directory: starter/backend/k8s
-
-     # - name: Deploy to Kubernetes
-     #   run: kubectl apply -f .
-     #   working-directory: starter/backend/k8s
