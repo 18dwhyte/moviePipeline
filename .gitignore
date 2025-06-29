@@ -1,3 +1,7 @@
 .terraform/
 ./setup/terraform/
+.terraform
+terraform/.terraform/*
+*.tfstate.backup
+setup/terraform/*
 setup/terraform/.terraform/providers/registry.terraform.io/hashicorp/aws/4.55.0/linux_amd64/terraform-provider-aws_v4.55.0_x5
