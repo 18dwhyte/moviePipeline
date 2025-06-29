@@ -31,7 +31,7 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    environment: production
+    environment: udacity
     defaults:
       run:
         working-directory: starter/frontend
